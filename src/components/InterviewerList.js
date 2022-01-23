@@ -8,6 +8,8 @@ export default function InterviewerList(props) {
 
   const [value, setValue] = useState(props.value);
   const onChange = (id) => {
+    props.onChange(id)
+    console.log(id) 
     setValue(id);
   }
   const interviewers = props.interviewers.map((interviewer) => 
