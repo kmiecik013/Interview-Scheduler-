@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import DayList from "./DayList";
-
 import axios from "axios";
 
 import "components/Application.scss";
@@ -11,26 +10,72 @@ import {getAppointmentsForDay, getInterview, getInterviewersForDay } from "../he
 
 
 
+
 export default function Application(props) {
 
   const [state, setState] = useState({
     day: "Monday",
     days: [],
     appointments: {},
-    interviewers:{}
+    interviewers:{},
+    cancelInterview: {},
   });
 
   console.log("checking state", state)
 
   const setDay = (day) => setState({ ...state, day });
-  /*const setDays = (days) => {
-    setState(prev => ({ ...prev, days }));
-  }
-*/
-  const appointments = getAppointmentsForDay(state, state.day);
-  const interviewers = getInterviewersForDay(state, state.day); 
+ 
+  
+  function bookInterview(id, interview) {
+    console.log("bookinterview", id, interview);
+
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    return axios.put(`http://localhost:8001/api/appointments/${id}`, appointment)
+      .then((response) => {
+        console.log("check response", response);
+       setState({...state, appointments});
+      })
+     }
+
+     function cancelInterview(id) {
+
+      const appointment = {
+      ...state.appointments[id],
+      interview: null, 
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment 
+      }
+
+      return axios 
+      .delete(`http://localhost:8001/api/appointments/${id}`)
+      .then (() => {
+        setState({...state, appointments});
+      })
+     }
+
+
 
   
+    //Make the request with the correct endpoint using the appointment id, with 
+    //the interview data in the body, we should receive a 204 No Content response.
+//When the response comes back we update the state using the existing setState.
+//Transition to SHOW when the promise returned by props.bookInterview resolves. 
+//This means that the PUT request is complete.
+
+ 
+
+  const appointments = getAppointmentsForDay(state, state.day);
+  const interviewers = getInterviewersForDay(state, state.day); 
   
 
   const schedule = appointments.map((appointment) => {
@@ -42,8 +87,10 @@ export default function Application(props) {
       key={appointment.id}
       id={appointment.id}
       time={appointment.time}
-      interview={appointment.interview}
-      interviewer={interviewers}
+      interview={interview}
+      interviewers={interviewers}
+      bookInterview={bookInterview}
+      cancelInterview={cancelInterview}
     />
     );
   });

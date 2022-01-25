@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Show(props) {
+export default function Status(props) {
 
   return (
 
