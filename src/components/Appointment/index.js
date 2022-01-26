@@ -7,6 +7,7 @@ import useVisualMode from 'hooks/useVisualMode';
 import Form from './Form';
 import Status from './Status';
 import Confirm from './Confirm';
+import Error from './Error';
 
 
 
@@ -19,6 +20,8 @@ export default function Appointment(props) {
   const DELETE = "DELETE";
   const CONFIRM_DELETE = "CONFIRM_DELETE"
   const EDIT = "EDIT";
+  const ERROR_SAVE = "ERROR_SAVE"
+  const ERROR_DELETE = "ERROR_DELETE"
 
   const { mode, transition, back } = useVisualMode(props.interview ? SHOW : EMPTY);
 
@@ -27,23 +30,28 @@ export default function Appointment(props) {
       student: name,
       interviewer
     };
-    console.log("look here", props.bookInterview())
+   
     transition(SAVING);
 
     props
       .bookInterview(props.id, interview)
       .then(() => {
-
-        transition(SHOW);
-
-      })
+        transition(SHOW)
+       })
+      .catch(error => {
+        transition(ERROR_SAVE, true)
+      }) 
   }
 
   function cancel() {
 
     transition(DELETE);
     props.cancelInterview(props.id)
-    .then(() => transition(EMPTY));
+    .then(() => transition(EMPTY))
+
+    .catch(error => {
+      transition(ERROR_DELETE, true)
+    })
     }
     function confirmDelete() {
       transition(CONFIRM_DELETE);
@@ -52,6 +60,8 @@ export default function Appointment(props) {
     function edit() {
       transition(EDIT)
     }
+
+   
 
 
 
@@ -79,12 +89,24 @@ export default function Appointment(props) {
           <Confirm
             message="Biggest desicison ever!, Are you sure you want to delete?"
             onConfirm={cancel}
+            onCancel= {back}
           />)}
         {mode === EDIT && (
           <Form 
             student = {props.interview.student}
             interviewers={props.interviewers}
             onSave={save}
+            //onCancel={cancel}
+            />)}
+        {mode === ERROR_SAVE && (
+          <Error 
+          message= "Saving is not possible"
+          onClose= {back}
+            />)}
+        {mode === ERROR_DELETE && (
+          <Error 
+          message="Delete is not possible" 
+          onClose={back}
             />)}
 
       </article>
