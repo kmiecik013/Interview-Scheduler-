@@ -1,79 +1,35 @@
 import React, { useEffect, useState } from "react";
 import DayList from "./DayList";
-import axios from "axios";
+//import axios from "axios";
 
 import "components/Application.scss";
-import "components/Appointment";
+import "components/Appointment";  
 import Appointment from "components/Appointment";
 import {getAppointmentsForDay, getInterview, getInterviewersForDay } from "../helpers/selectors";
-
-
-
+import useApplicationData from 'hooks/useApplicationData'
 
 
 export default function Application(props) {
 
+  const {
+    state,
+    setDay,
+    bookInterview,
+    cancelInterview
+  } = useApplicationData();
+
+ /*
   const [state, setState] = useState({
     day: "Monday",
     days: [],
     appointments: {},
     interviewers:{},
-    cancelInterview: {},
+    cancelInterview: {cancelInterview},
   });
-
-  console.log("checking state", state)
-
-  const setDay = (day) => setState({ ...state, day });
- 
-  
-  function bookInterview(id, interview) {
-    console.log("bookinterview", id, interview);
-
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-
-    return axios.put(`http://localhost:8001/api/appointments/${id}`, appointment)
-      .then((response) => {
-        console.log("check response", response);
-       setState({...state, appointments});
-      })
-     }
-
-     function cancelInterview(id) {
-
-      const appointment = {
-      ...state.appointments[id],
-      interview: null, 
-      };
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment 
-      }
-
-      return axios 
-      .delete(`http://localhost:8001/api/appointments/${id}`)
-      .then (() => {
-        setState({...state, appointments});
-      })
-     }
-
-
-
-  
-    //Make the request with the correct endpoint using the appointment id, with 
-    //the interview data in the body, we should receive a 204 No Content response.
-//When the response comes back we update the state using the existing setState.
-//Transition to SHOW when the promise returned by props.bookInterview resolves. 
-//This means that the PUT request is complete.
+*/
+  //console.log("checking state", state)
 
  
-
   const appointments = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day); 
   
@@ -95,6 +51,7 @@ export default function Application(props) {
     );
   });
 
+  /*
   useEffect(() => {
     const grabDays = `http://localhost:8001/api/days`
     const grabAppointments = `http://localhost:8001/api/appointments`
@@ -116,7 +73,7 @@ export default function Application(props) {
     })
   },[]);
 
-
+*/
   return (
     <main className="layout">
       <section className="sidebar">
