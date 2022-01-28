@@ -10,7 +10,6 @@ import Confirm from './Confirm';
 import Error from './Error';
 
 
-
 export default function Appointment(props) {
 
   const EMPTY = "EMPTY";
@@ -41,7 +40,7 @@ export default function Appointment(props) {
       .catch(error => {
         transition(ERROR_SAVE, true)
       }) 
-  }
+  };
 
   function cancel() {
 
@@ -52,19 +51,16 @@ export default function Appointment(props) {
     .catch(error => {
       transition(ERROR_DELETE, true)
     })
-    }
+    };
     function confirmDelete() {
       transition(CONFIRM_DELETE);
-    }
+    };
   
     function edit() {
       transition(EDIT)
-    }
+    };
 
-   
-
-
-
+  
     return (
       <article className="appointment">
         <Header time={props.time} />
@@ -87,7 +83,7 @@ export default function Appointment(props) {
         {mode === DELETE && <Status message="DELETING" />}
         {mode === CONFIRM_DELETE && (
           <Confirm
-            message="Biggest desicison ever!, Are you sure you want to delete?"
+            message="Are you sure you want to delete?"
             onConfirm={cancel}
             onCancel= {back}
           />)}
@@ -111,4 +107,4 @@ export default function Appointment(props) {
 
       </article>
     )
-  }
+  };

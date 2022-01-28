@@ -33,5 +33,4 @@ return (
   </section>
 </main>
 )
-
-}
+};
