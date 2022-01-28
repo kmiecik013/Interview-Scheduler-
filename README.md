@@ -43,3 +43,13 @@ npm run storybook
 
 ## Interview Scheduler Images
 
+!["Home page Interview Scheduler"](https://github.com/kmiecik013/Interview-Scheduler-/blob/master/docs/Home.png)
+Home page Interview Scheduler
+
+!["Confirm Mode"](https://github.com/kmiecik013/Interview-Scheduler-/blob/master/docs/Confirm.png)
+COnfirm Mode
+
+!["Add/Edit Form"](https://github.com/kmiecik013/Interview-Scheduler-/blob/master/docs/Add-Edit-Form.png)
+Add/Edit Form
+
+
